@@ -284,18 +284,7 @@ def plot_column_section(mark,w,d,locx,locy,covering, rebar_options):
         arc_top = msp.add_arc(center=center_y_right,radius=main_bar_sizing -2,start_angle=305,end_angle=35)
         point_6 = arc_top.start_point
         point_7 = arc_top.end_point
-        
-        # point_1 = (center_x[0]-(rebar_sizing/2.00) , center_x[1])
-        # point_2 = (center_y[0] , center_x[1] +(rebar_sizing/2.00))
-        
-        # point_3 = (center_y[0] , center_x[1] -(rebar_sizing/2.00))
-        # point_4 = (center_x_bottom[0]-(rebar_sizing/2.00) , center_x_bottom[1])
-        
-        # point_5 = (center_x_bottom[0]+(rebar_sizing/2.00) , center_x_bottom[1])
-        # point_6 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
-        
-        # point_7 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
-        # point_8 = (center_x[0]+(rebar_sizing/2.00) , center_x[1])
+    
         
         msp.add_line(start=point_1,end= point_2)
         msp.add_line(start=point_3,end= point_4)
