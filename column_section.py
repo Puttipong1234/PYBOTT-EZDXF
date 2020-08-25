@@ -15,8 +15,8 @@ msp = doc.modelspace()
 #input_format
 column_data = [{
     "mark":"C1",
-    "width":"300",
-    "height":"300",
+    "width":300,
+    "height":300,
     "rebar_options": {
         #4mainbar
         "main":{
@@ -33,14 +33,17 @@ column_data = [{
             "size":12
         }
         ,"stirrup_1":{ #1 , 2, 2A , 2B , 3 , 3A , 3B
+            "number":1,
             "size":12
         }
         ,"stirrup_2A":{ #1 , 2, 2A , 2B , 3 , 3A , 3B สี่เหลี่ยม 45
-            "size":12
+            "number":1,
+            "size":9
         }
-        ,"stirrup_2B":{ #1 , 2, 2A , 2B , 3 , 3A , 3B   สี่เหลี่ยม
-            "size":12
-        }
+        # ,"stirrup_2B":{ #1 , 2, 2A , 2B , 3 , 3A , 3B   สี่เหลี่ยม
+        #     "number":3,
+        #     "size":12
+        # }
 
         # ,"stirrup_3A":{ #1 , 2, 2A , 2B , 3 , 3A , 3B     สี่เหลี่ยมตั้ง
         #     "size":12
@@ -52,8 +55,8 @@ column_data = [{
 },
                {
     "mark":"C2",
-    "width":"800",
-    "height":"600",
+    "width":800,
+    "height":600,
     "rebar_options": {
         #extra_bar
         "vertical": {
@@ -66,7 +69,7 @@ column_data = [{
         }
         #extra_bar
         ,"horizontal":{
-            "number":3,
+            "number":5,
             "size":12
         }
         ,"stirrup_1":{ #1 , 2, 2A , 2B , 3 , 3A , 3B
@@ -77,10 +80,10 @@ column_data = [{
         #     "number":1,
         #     "size":12
         # }
-        # ,"stirrup_2B":{ #1 , 2, 2A , 2B , 3 , 3A , 3B   สี่เหลี่ยม
-        #     "number":1,
-        #     "size":12
-        # }
+        ,"stirrup_2B":{ #1 , 2, 2A , 2B , 3 , 3A , 3B   สี่เหลี่ยม
+            "number":1,
+            "size":12
+        }
         # ,"stirrup_3A":{ #1 , 2, 2A , 2B , 3 , 3A , 3B     สี่เหลี่ยมตั้ง
         #     "size":12
         # }
@@ -91,8 +94,8 @@ column_data = [{
 },
                {
     "mark":"C3",
-    "width":"1600",
-    "height":"1000",
+    "width":1600,
+    "height":1000,
     "rebar_options": {
         #extra_bar
         "vertical": {
@@ -131,7 +134,7 @@ column_data = [{
     }
 }]
 
-def plot_column_section(w,h,locx,locy,covering, rebar_options):
+def plot_column_section(mark,w,d,locx,locy,covering, rebar_options):
     points = [(locx, locy), (locx + w, locy),(locx + w , locy + d), (locx, locy + d), (locx , locy)]
     msp.add_lwpolyline(points , dxfattribs={'layer': 'STRCUT'})
     
@@ -157,7 +160,7 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
     dim.set_tick(size=25 )
     dim.render()
     
-    msp.add_text("{} {} X {}".format("BEAM",str(w),str(d)),
+    msp.add_text("{} {} X {}".format(mark,str(w),str(d)),
              dxfattribs={
                  'style': 'Standard',
                  'height': 50}
@@ -165,6 +168,7 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
     
     placing_point_horizontal = [] # history of placing point of rebar
     placing_point_vertical = []
+    main_bar_sizing = 20
     
     
     if "horizontal" in rebar_options.keys():
@@ -190,7 +194,7 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
         
         
         placing_point_horizontal = placing_point_top
-        
+        main_bar_sizing = rebar_sizing
         
     if "horizontal_2" in rebar_options.keys():
         
@@ -225,11 +229,11 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
         loc_x_right =  w + locx - covering - (rebar_sizing/2.00)
         loc_x_left =  locx + covering + (rebar_sizing/2.00)
         
-        placing_point_right = [[i , loc_x_right] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
+        placing_point_right = [[loc_x_right ,i ] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
         for i in placing_point_right:
             msp.add_circle(center=(i[0],i[1]),radius=rebar_sizing/2.00,dxfattribs={'layer': 'REBAR'})
         
-        placing_point_left = [[i , loc_x_left] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
+        placing_point_left = [[loc_x_left , i] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
         for i in placing_point_left:
             msp.add_circle(center=(i[0],i[1]),radius=rebar_sizing/2.00,dxfattribs={'layer': 'REBAR'})
         
@@ -246,11 +250,11 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
         loc_x_right =  w + locx - covering - (rebar_sizing/2.00)*2 - rebar_sizing
         loc_x_left =  locx + covering + (rebar_sizing/2.00)*2 + rebar_sizing
         
-        placing_point_right = [[i , loc_x_right] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
+        placing_point_right = [[loc_x_right , i] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
         for i in placing_point_right:
             msp.add_circle(center=(i[0],i[1]),radius=rebar_sizing/2.00,dxfattribs={'layer': 'REBAR'})
         
-        placing_point_left = [[i , loc_x_left] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
+        placing_point_left = [[loc_x_left , i] for i in numpy.linspace(loc_start , loc_end , num=number_of_rebar , endpoint=True)]
         for i in placing_point_left:
             msp.add_circle(center=(i[0],i[1]),radius=rebar_sizing/2.00,dxfattribs={'layer': 'REBAR'})
         
@@ -261,70 +265,114 @@ def plot_column_section(w,h,locx,locy,covering, rebar_options):
         rebar_sizing = int(rebar_options["stirrup_2A"]["size"])
         
         center_x = ((locx + w)/2.00 , (locy+d) - covering - (rebar_sizing/2.00)) #1,8
-        center_y = ((locx) + covering + (rebar_sizing/2.00) , (locy + d)/2.00) #2,3
+        arc_top = msp.add_arc(center=center_x,radius=main_bar_sizing -2,start_angle=35,end_angle=145)
+        point_8 = arc_top.start_point
+        point_1 = arc_top.end_point
+        
+        
+        center_y = ((locx) + covering + (rebar_sizing/2.00) , locy + (d/2.00)) #2,3
+        arc_top = msp.add_arc(center=center_y,radius=main_bar_sizing -2,start_angle=145,end_angle=215)
+        point_2 = arc_top.start_point
+        point_3 = arc_top.end_point
         
         center_x_bottom = ((locx + w)/2.00 , (locy) + covering + (rebar_sizing/2.00)) #1,8
-        center_y_right = ((locx + w) - covering - (rebar_sizing/2.00) , (locy + d)/2.00) #2,3
+        arc_top = msp.add_arc(center=center_x_bottom,radius=main_bar_sizing -2,start_angle=235,end_angle=305)
+        point_4 = arc_top.start_point
+        point_5 = arc_top.end_point
         
-        point_1 = (center_x[0]-(rebar_sizing/2.00) , center_x[1])
-        point_2 = (center_y[0] , center_x[1] +(rebar_sizing/2.00))
+        center_y_right = ((locx + w) - covering - (rebar_sizing/2.00) , locy + (d/2.00)) #2,3
+        arc_top = msp.add_arc(center=center_y_right,radius=main_bar_sizing -2,start_angle=305,end_angle=35)
+        point_6 = arc_top.start_point
+        point_7 = arc_top.end_point
         
-        point_3 = (center_y[0] , center_x[1] -(rebar_sizing/2.00))
-        point_4 = (center_x_bottom[0]-(rebar_sizing/2.00) , center_x_bottom[1])
+        # point_1 = (center_x[0]-(rebar_sizing/2.00) , center_x[1])
+        # point_2 = (center_y[0] , center_x[1] +(rebar_sizing/2.00))
         
-        point_5 = (center_x_bottom[0]+(rebar_sizing/2.00) , center_x_bottom[1])
-        point_6 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
+        # point_3 = (center_y[0] , center_x[1] -(rebar_sizing/2.00))
+        # point_4 = (center_x_bottom[0]-(rebar_sizing/2.00) , center_x_bottom[1])
         
-        point_7 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
-        point_8 = (center_x[0]+(rebar_sizing/2.00) , center_x[1])
+        # point_5 = (center_x_bottom[0]+(rebar_sizing/2.00) , center_x_bottom[1])
+        # point_6 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
+        
+        # point_7 = (center_y_right[0] , center_y_right[1] -(rebar_sizing/2.00))
+        # point_8 = (center_x[0]+(rebar_sizing/2.00) , center_x[1])
         
         msp.add_line(start=point_1,end= point_2)
         msp.add_line(start=point_3,end= point_4)
         msp.add_line(start=point_5,end= point_6)
-        msp.add_line(start=point_7,end= point_8)
+        msp.add_line(start=point_7,end= point_8)        
+        # stirrup end
+        
+        point_9 = (point_1.x , point_1.y - rebar_sizing*6 , 0)
+        point_10 = (point_8.x , point_8.y - rebar_sizing*6 , 0)
+        msp.add_line(start=point_1,end= point_9)
+        msp.add_line(start=point_8,end= point_10)
+        
         
         if len(placing_point_horizontal) < 3:
             raise Exception("Sorry, unable to reinforce ST. type 3A , main rebar too less")
         
     # currently dev
-    if "stirrup_2B" in rebar_options.keys():
+    # if "stirrup_2B" in rebar_options.keys():
         
-        number_of_rebar = int(rebar_options["stirrup_2B"]["number"])
-        rebar_sizing = int(rebar_options["stirrup_2B"]["size"])
+    #     number_of_rebar = int(rebar_options["stirrup_2B"]["number"])
+    #     rebar_sizing = int(rebar_options["stirrup_2B"]["size"])
         
-        if 5 <= len(placing_point_horizontal) <= 8:
-            rebar_point_1 = placing_point_horizontal[1]
-            rebar_point_2 = placing_point_horizontal[-2]
-        
-        elif 9 <= len(placing_point_horizontal) :
-            rebar_point_1 = placing_point_horizontal[2]
-            rebar_point_2 = placing_point_horizontal[-3]
-    
-    if "stirrup_3A" in rebar_options.keys():
-        
-        number_of_rebar = int(rebar_options["stirrup_3A"]["number"])
-        rebar_sizing = int(rebar_options["stirrup_3A"]["size"])
-        
-        if 6 <= len(placing_point_horizontal) <= 8:
-            rebar_point_1 = placing_point_horizontal[1]
-            rebar_point_2 = placing_point_horizontal[-2]
-        
-        elif 9 <= len(placing_point_horizontal) :
-            rebar_point_1 = placing_point_horizontal[2]
-            rebar_point_2 = placing_point_horizontal[-3]
+    #     if 5 <= len(placing_point_horizontal) <= 8:
+    #         rebar_point_1 = placing_point_horizontal[1]
+    #         rebar_point_2 = placing_point_horizontal[-2]
             
-        else:
-            raise Exception("Sorry, unable to reinforce ST. type 3A , main rebar too less")
+    #         print(rebar_point_1 , rebar_point_2)
+        
+    #     elif 9 <= len(placing_point_horizontal) :
+    #         rebar_point_1 = placing_point_horizontal[2]
+    #         rebar_point_2 = placing_point_horizontal[-3]
+            
+    #         print(rebar_point_1 , rebar_point_2)
+        
+    #     else:
+    #         raise Exception("Sorry, unable to reinforce ST. type 3A , main rebar too less")
+            
     
-    if "stirrup_3B" in rebar_options.keys():
+    # if "stirrup_3A" in rebar_options.keys():
         
-        number_of_rebar = int(rebar_options["stirrup_3B"]["number"])
-        rebar_sizing = int(rebar_options["stirrup_3B"]["size"])
+    #     number_of_rebar = int(rebar_options["stirrup_3A"]["number"])
+    #     rebar_sizing = int(rebar_options["stirrup_3A"]["size"])
         
-        if 5 <= len(placing_point_vertical) <= 8:
-            rebar_point_1 = placing_point_vertical[1]
-            rebar_point_2 = placing_point_vertical[-2]
+    #     if 6 <= len(placing_point_horizontal) <= 8:
+    #         rebar_point_1 = placing_point_horizontal[1]
+    #         rebar_point_2 = placing_point_horizontal[-2]
+            
+    #         print(rebar_point_1 , rebar_point_2)
+            
         
-        elif 9 <= len(placing_point_vertical) :
-            rebar_point_1 = placing_point_vertical[2]
-            rebar_point_2 = placing_point_vertical[-3]
+    #     elif 9 <= len(placing_point_horizontal) :
+    #         rebar_point_1 = placing_point_horizontal[2]
+    #         rebar_point_2 = placing_point_horizontal[-3]
+            
+    #         print(rebar_point_1 , rebar_point_2)
+            
+    #     else:
+    #         raise Exception("Sorry, unable to reinforce ST. type 3A , main rebar too less")
+    
+    # if "stirrup_3B" in rebar_options.keys():
+        
+    #     number_of_rebar = int(rebar_options["stirrup_3B"]["number"])
+    #     rebar_sizing = int(rebar_options["stirrup_3B"]["size"])
+        
+    #     if 5 <= len(placing_point_vertical) <= 8:
+    #         rebar_point_1 = placing_point_vertical[1]
+    #         rebar_point_2 = placing_point_vertical[-2]
+        
+    #     elif 9 <= len(placing_point_vertical) :
+    #         rebar_point_1 = placing_point_vertical[2]
+    #         rebar_point_2 = placing_point_vertical[-3]
+        
+    #     else:
+    #         raise Exception("Sorry, unable to reinforce ST. type 3A , main rebar too less")
+
+for i , val in enumerate(column_data):
+    plot_column_section(val["mark"],val["width"],val["height"], i * 1000 , 500 ,covering= 30 ,rebar_options = val["rebar_options"])
+
+doc.saveas('test4.dxf')
+
