@@ -1,6 +1,6 @@
 ## Source Code Pybott เขียนแบบอัตโนมัติ ด้วยไพทอน
 
-![ScreenShot](https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.0-9/98166112_577365766487772_3486300897774927872_n.png?_nc_cat=110&_nc_sid=8024bb&_nc_eui2=AeH2YUlrGujJOqW4-6DYG5ACyx6d0cHWGUbLHp3RwdYZRqg844k6K0pnCXuRKwObsek&_nc_oc=AQlNL7mxgFZwDpw8drk_WD9Ku0Sxef0LmhswwBYJDHqfvw7t14S5NuyEGVR7AncnJ2k&_nc_ht=scontent.fbkk22-3.fna&oh=232a2b41adf2f2ab82e9441d4cd9f559&oe=5EEB9EA5)
+![ScreenShot](https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/118233601_647323549491993_4702889884263288407_n.png?_nc_cat=106&_nc_sid=19369f&_nc_ohc=5ofwRkRQ-BkAX8cVUAa&_nc_ht=scontent.fbkk22-2.fna&oh=f9f8974bc86fadad933de603079f5d9e&oe=5F6BF6CC)
 
 ## วิธีการใช้งานเบื้องต้น
 1. cmd > git clone https://github.com/Puttipong1234/PYBOTT-EZDXF
