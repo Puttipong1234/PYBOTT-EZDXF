@@ -120,7 +120,8 @@ beam_data = [{
     }
   }
 }]
-def create_beam_section(w,d,locx,locy ,covering, rebar_options ):
+
+def plot_beam_section(w,d,locx,locy ,covering, rebar_options ):
     points = [(locx, locy), (locx + w, locy),(locx + w , locy + d), (locx, locy + d), (locx , locy)]
     msp.add_lwpolyline(points , dxfattribs={'layer': 'STRCUT'})
     dim = msp.add_aligned_dim(p1=(locx, locy), p2=(locx, locy + d), distance=100 ,
@@ -207,11 +208,8 @@ def create_beam_section(w,d,locx,locy ,covering, rebar_options ):
     msp.add_line(start=(locx + covering + (rebar_sizing/2.00) , locy + covering ),end= (locx + w - covering - (rebar_sizing/2.00), locy + covering))
     msp.add_line(start=(locx + covering + (rebar_sizing/2.00) , locy + d - covering ),end= (locx + w - covering - (rebar_sizing/2.00), locy + d - covering))
 
-
-
-
 for i , val in enumerate(beam_data):
-    create_beam_section(val["width"],val["height"], i * 1000 , 500 ,covering= 25 ,rebar_options = val["rebar_options"])
+    plot_beam_section(val["width"],val["height"], i * 1000 , 500 ,covering= 25 ,rebar_options = val["rebar_options"])
 
 
 doc.saveas('test3.dxf')
